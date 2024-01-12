@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
+    
+    var player: AVAudioPlayer!
     
     let eggTimes = ["Soft": 3, "Medium": 4, "Hard": 7]
     var secondsPassed = 0
@@ -23,7 +26,6 @@ class ViewController: UIViewController {
         secondsPassed = 0
         
         let hardness = sender.currentTitle!
-        let result = eggTimes[hardness]!
         eggResult.text = hardness
         totalTime = eggTimes[hardness]!
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
@@ -45,7 +47,15 @@ class ViewController: UIViewController {
         } else {
             timer.invalidate()
             eggResult.text = "Done"
+            playSound()
         }
+    }
+//    Play Sound
+    func playSound() {
+        let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+        player = try! AVAudioPlayer(contentsOf: url!)
+        player.play()
+                
     }
     
 }
